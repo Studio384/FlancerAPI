@@ -11,8 +11,12 @@ abstract class JobFactory {
         }
         
         return new Job(
-            $array['title'], 
-            $array['company_id'], 
+            $array['title'],
+            $array['company'],
+            $array['phone'],
+            $array['email'],
+            $array['start_date'],
+            $array['end_date'],
             $array['minimum_bid'],
             $array['description'],
             $array['street'],

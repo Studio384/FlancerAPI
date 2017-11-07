@@ -48,7 +48,7 @@ class JobDAO implements IJobDAO {
             if ( count( $row ) > 0 ) {
                 return JobFactory::CreateFromArray( $row[0] );
             } else {
-                return null;
+                return 'null';
             }
         } catch ( PDOException $e ) {
             throw new Exception( 'Caught exception: ' . $e->getMessage() );
@@ -59,11 +59,19 @@ class JobDAO implements IJobDAO {
 
     public function create( $job ) {
         try {
-            $statement = $this->connection->prepare( 'INSERT INTO jobs (title, company_id, minimum_bid, description, street, number, city, zip, country) VALUES (:title, :company_id, :minimum_bid, :description, :street, :number, :city, :zip, :country)' );
+            $statement = $this->connection->prepare( 'INSERT INTO jobs (title, company, phone, email, start_date, end_date, minimum_bid, description, street, number, city, zip, country) VALUES (:title, :company, :phone, :email, :start_date, :end_date, :minimum_bid, :description, :street, :number, :city, :zip, :country)' );
             $title = $job->getTitle();
             $statement->bindParam( ':title', $title, PDO::PARAM_INT );
-            $companyId = $job->getCompanyId();
-            $statement->bindParam( ':company_id', $companyId, PDO::PARAM_STR );
+            $company = $job->getCompany();
+            $statement->bindParam( ':company', $company, PDO::PARAM_STR );
+            $phone = $job->getPhone();
+            $statement->bindParam( ':phone', $phone, PDO::PARAM_STR );
+            $email = $job->getEmail();
+            $statement->bindParam( ':email', $email, PDO::PARAM_STR );
+            $startDate = $job->getEndDate();
+            $statement->bindParam( ':startDate', $startDate, PDO::PARAM_STR );
+            $endDate = $job->getStartDate();
+            $statement->bindParam( ':endDate', $endDate, PDO::PARAM_STR );
             $minimumBid =  $job->getMinimumBid();
             $statement->bindParam( ':minimum_bid', $minimumBid, PDO::PARAM_INT);
             $description = $job->getDescription();

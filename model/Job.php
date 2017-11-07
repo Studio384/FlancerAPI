@@ -3,13 +3,17 @@
 namespace model;
 
 class Job implements \JsonSerializable {
-    function __construct( $title, $company_id, $minimum_bid, $description, $street, $number, $city, $zip, $country, $id = null ) {
+    function __construct( $title, $company, $phone, $email, $start_date, $end_date, $minimum_bid, $description, $street, $number, $city, $zip, $country, $id = null ) {
         if ($id !== null) {
             $this->setId( $id );
         }
         
         $this->setTitle( $title );
-        $this->setCompanyId( $company_id );
+        $this->setCompany( $company );
+        $this->setPhone( $phone );
+        $this->setEmail( $email );
+        $this->setStartDate( $start_date );
+        $this->setEndDate( $end_date );
         $this->setMinimumBid( $minimum_bid );
         $this->setDescription( $description );
         $this->setStreet( $street );
@@ -28,8 +32,24 @@ class Job implements \JsonSerializable {
         $this->title = $title;
     }
     
-    public function setCompanyId( $company_id ) {
-        $this->company_id = $company_id;
+    public function setCompany( $company ) {
+        $this->company = $company;
+    }
+    
+    public function setPhone( $phone ) {
+        $this->phone = $phone;
+    }
+    
+    public function setEmail( $email ) {
+        $this->email = $email;
+    }
+    
+    public function setStartDate( $start_date ) {
+        $this->start_date = $start_date;
+    }
+    
+    public function setEndDate( $end_date ) {
+        $this->end_date = $end_date;
     }
     
     public function setMinimumBid( $minimum_bid ) {
@@ -69,8 +89,24 @@ class Job implements \JsonSerializable {
         return $this->title;
     }
     
-    public function getCompanyId() {
-        return $this->company_id;
+    public function getCompany() {
+        return $this->company;
+    }
+    
+    public function getPhone() {
+        return $this->phone;
+    }
+    
+    public function getEmail() {
+        return $this->email;
+    }
+    
+    public function getStartDate() {
+        return date( "j F Y", strtotime( $this->start_date ) );
+    }
+    
+    public function getEndDate() {
+        return date( "j F Y", strtotime( $this->end_date ) );
     }
     
     public function getMinimumBid() {
@@ -106,7 +142,11 @@ class Job implements \JsonSerializable {
         return [
             'id' => $this->getId(),
             'title' => $this->getTitle(),
-            'company_id' => $this->getCompanyId(),
+            'company' => $this->getCompany(),
+            'phone' => $this->getPhone(),
+            'email' => $this->getEmail(),
+            'start_date' => $this->getStartDate(),
+            'end_date' => $this->getEndDate(),
             'minimum_bid' => $this->getMinimumBid(),
             'description' => $this->getDescription(),
             'street' => $this->getStreet(),
